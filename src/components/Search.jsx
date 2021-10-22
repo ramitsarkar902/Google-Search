@@ -6,15 +6,17 @@ import { Links } from "./Links";
 
 export const Search = () => {
   const { setSearchTerm } = useResultContext();
-  const [text, setText] = useState("");
-  const [debouncedValue] = useDebounce(text, 300);
+  const [text, setText] = useState("Beluga Cat");
+  const [debouncedValue] = useDebounce(text, 500);
 
   useEffect(() => {
-    if (debouncedValue) setSearchTerm(debouncedValue);
+    if (debouncedValue) {
+      setSearchTerm(debouncedValue);
+    }
   }, [debouncedValue]);
 
   return (
-    <div className="relative sm:ml-48 md:ml-72 sm:-mt-10 mt-3">
+    <div className="relative sm:ml-48 md:ml-72 sm:-mt-10 mt-3 mb-3">
       <input
         value={text}
         type="text"
