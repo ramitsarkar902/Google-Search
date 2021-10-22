@@ -7,37 +7,25 @@ export const ResultContextProvider = ({ children }) => {
   const [loading, setLoading] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
 
-  const getResults = async (type) => {
+  const getResults = async (url) => {
     setLoading(true);
 
-    var axios = require("axios").default;
-
-    var options = {
+    const res = await fetch(`${baseUrl}${url}`, {
       method: "GET",
-      url: `${baseUrl}${type}`,
       headers: {
-        "x-user-agent": "desktop",
         "x-rapidapi-host": "google-search3.p.rapidapi.com",
         "x-rapidapi-key": "b077eb11e1msh6f528d33fabb631p13ed7bjsnef4fdee0aff3",
       },
-    };
+    });
 
-    axios
-      .request(options)
-      .then(function (response) {
-        setResults(response.data);
-        console.log(response.data);
-      })
-      .catch(function (error) {
-        console.error(error);
-      });
+    const data = await res.json();
 
+    setResults(data);
     setLoading(false);
   };
-
   return (
     <ResultContext.Provider
-      value={{ getResults, results, setSearchTerm, loading }}
+      value={{ getResults, results, setSearchTerm, searchTerm, loading }}
     >
       {children}
     </ResultContext.Provider>
